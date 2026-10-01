@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Aptos", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  * { @apply border-slate-200; }
+  body { @apply bg-[#f6f7f9] text-slate-900 antialiased; }
+  button, input, textarea, select { @apply outline-none; }
+  button { @apply transition duration-200; }
+  input, textarea, select { @apply focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10; }
+}
+
+@layer components {
+  .surface { @apply rounded-3xl border border-slate-200/70 bg-white shadow-[0_12px_32px_rgba(15,23,42,.045)]; }
+  .field { @apply mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-3 text-sm placeholder:text-slate-400 focus:bg-white; }
+  .button-primary { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-[0_6px_16px_rgba(15,23,42,.16)] hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60; }
+  .button-secondary { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:bg-slate-50; }
+  .eyebrow { @apply text-[11px] font-bold uppercase tracking-[0.16em] text-slate-400; }
+  .page-title { @apply text-2xl font-bold tracking-tight text-slate-950 md:text-3xl; }
+  .segmented-control { @apply flex w-fit rounded-xl bg-slate-100 p-1 text-sm font-medium text-slate-500; }
+  .segmented-control button { @apply rounded-lg px-3.5 py-2 transition; }
+  .segmented-control button[data-active="true"] { @apply bg-white text-slate-950 shadow-sm; }
+}
