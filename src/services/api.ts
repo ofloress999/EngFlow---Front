@@ -1,6 +1,10 @@
 import axios from "axios";
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8080",
+  // Em produção, /api é encaminhado pela Vercel ao Render. Assim o cookie de
+  // sessão continua sendo de primeira parte e funciona também em celulares.
+  baseURL:
+    import.meta.env.VITE_API_URL ??
+    (import.meta.env.PROD ? "" : "http://localhost:8080"),
   withCredentials: true,
 });
 export const getErrorMessage = (error: unknown) => {
