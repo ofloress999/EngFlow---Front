@@ -1,9 +1,25 @@
-import React from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Folder, FolderCheck, Archive, Users, Settings, HardHat } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { LayoutDashboard, Folder, FolderCheck, Archive, Users, Settings, HardHat, LogOut } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 export const Layout: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [leaving, setLeaving] = useState(false);
+
+  const signOut = async () => {
+    try {
+      setLeaving(true);
+      await logout();
+      navigate('/login', { replace: true });
+    } finally {
+      setLeaving(false);
+      setSettingsOpen(false);
+    }
+  };
 
   const menuItems = [
     { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
@@ -49,9 +65,29 @@ export const Layout: React.FC = () => {
           </nav>
         </div>
 
-        <div className="mt-5 hidden items-center justify-between border-t border-slate-100 px-2 pt-5 text-xs text-slate-400 lg:flex">
-          <span>Área do Engenheiro</span>
-          <Settings className="w-4 h-4 cursor-pointer hover:text-slate-900" />
+        <div className="relative mt-5 hidden border-t border-slate-100 px-2 pt-5 lg:block">
+          <button
+            type="button"
+            onClick={() => setSettingsOpen((open) => !open)}
+            className="flex w-full items-center justify-between rounded-lg py-2 text-xs text-slate-400 hover:bg-slate-50 hover:text-slate-900"
+            aria-expanded={settingsOpen}
+          >
+            <span>Configurações</span>
+            <Settings className="w-4 h-4" />
+          </button>
+          {settingsOpen && (
+            <div className="absolute bottom-14 left-4 right-4 rounded-xl border border-slate-200 bg-white p-1.5 shadow-lg">
+              <button
+                type="button"
+                disabled={leaving}
+                onClick={() => void signOut()}
+                className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-60"
+              >
+                <LogOut size={16} />
+                {leaving ? 'Saindo...' : 'Sair da conta'}
+              </button>
+            </div>
+          )}
         </div>
       </aside>
 
