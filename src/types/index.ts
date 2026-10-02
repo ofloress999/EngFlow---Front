@@ -1,7 +1,7 @@
 export interface Cliente { id: string; nome: string; documento: string; email: string; telefone: string; endereco?: string; }
 export interface AnexoEtapa { id: string; nomeArquivo: string; linkArquivo: string; tipoDocumento: string; tamanhoBytes: number; dataUpload: string; }
-export interface InstanciaEtapa { id: string; nomeEtapa: string; descricao: string; ordem: number; obrigaDocumentos: boolean; status: 'PENDENTE' | 'EM_ANDAMENTO' | 'CONCLUIDO'; numeroProtocolo?: string; observacoesTecnicas?: string; }
+export interface InstanciaEtapa { id: string; nomeEtapa: string; descricao: string; ordem: number; obrigaDocumentos: boolean; status: 'PENDENTE' | 'EM_ANDAMENTO' | 'CONCLUIDO'; numeroProtocolo?: string; observacoesTecnicas?: string; anexos?: AnexoEtapa[]; }
 export interface Processo { id: string; nomeObra: string; endereco: string; observacoes?: string; nomeCliente: string; clienteId: string; nomeTipoProcesso: string; tipoProcessoId: string; dataInicio: string; dataFim?: string; status: 'EM_ANDAMENTO' | 'CONCLUIDO' | 'AGUARDANDO_RETIRADA' | 'ENTREGUE' | 'ARQUIVADO'; linkCliente: string; etapas: InstanciaEtapa[]; }
-export interface AcompanhamentoCliente { nomeObra: string; endereco: string; nomeCliente: string; status: string; dataConclusao?: string; etapasVisiveis: InstanciaEtapa[]; }
+export interface AcompanhamentoCliente { nomeObra: string; endereco: string; nomeCliente: string; status: string; dataConclusao?: string; etapasVisiveis: InstanciaEtapa[]; nomeEngenheiro: string; creaCauEngenheiro: string; telefoneEngenheiro: string; emailEngenheiro: string; fotoEngenheiroUrl?: string; }
 export interface TipoProcesso { id: string; nome: string; descricao?: string; }
-export interface Perfil { id: string; nome: string; email: string; creaCau: string; }
+export interface Perfil { id: string; nome: string; email: string; creaCau: string; telefone: string; fotoUrl?: string; }

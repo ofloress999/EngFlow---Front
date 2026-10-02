@@ -13,7 +13,7 @@
 }
 
 @layer components {
-  .surface { @apply rounded-3xl border border-slate-200/70 bg-white shadow-[0_12px_32px_rgba(15,23,42,.045)]; }
+  .surface { @apply rounded-3xl border border-white bg-white; }
   .field { @apply mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-3 text-sm placeholder:text-slate-400 focus:bg-white; }
   .button-primary { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-[0_6px_16px_rgba(15,23,42,.16)] hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60; }
   .button-secondary { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:bg-slate-50; }
@@ -23,3 +23,16 @@
   .segmented-control button { @apply rounded-lg px-3.5 py-2 transition; }
   .segmented-control button[data-active="true"] { @apply bg-white text-slate-950 shadow-sm; }
 }
+
+/* Cartões: sem blur/sombra; apenas o contorno branco de 1px. */
+main [class*="shadow"] { box-shadow: none !important; border: 1px solid #fff !important; }
+
+/* O tema é aplicado no documento inteiro, inclusive em cartões já existentes. */
+.dark { color-scheme: dark; }
+.dark body, .dark .bg-\[\#f6f7f9\], .dark .bg-slate-50 { background-color: #0f172a !important; color: #e2e8f0; }
+.dark .bg-white, .dark .surface { background-color: #1e293b !important; }
+.dark .text-slate-900, .dark .text-slate-950, .dark .text-slate-800, .dark h1, .dark h2, .dark h3 { color: #f8fafc !important; }
+.dark .text-slate-500, .dark .text-slate-600, .dark .text-slate-400 { color: #cbd5e1 !important; }
+.dark .border-slate-200, .dark .border-slate-100, .dark .border { border-color: #334155 !important; }
+.dark input, .dark textarea, .dark select, .dark .bg-slate-100, .dark .bg-slate-200 { background-color: #0f172a !important; color: #f8fafc !important; }
+.dark .segmented-control button[data-active="true"] { background-color: #334155 !important; color: #f8fafc !important; }

@@ -25,6 +25,8 @@ export const createCliente = (data: {
   telefone: string;
   endereco?: string;
 }) => api.post("/api/clientes", data);
+export const updateCliente = (id: string, data: { nome: string; documento: string; email: string; telefone: string; endereco?: string }) => api.put(`/api/clientes/${id}`, data);
+export const deleteCliente = (id: string) => api.delete(`/api/clientes/${id}`);
 export const getProcessos = () => api.get("/api/processos");
 export const getProcessoById = (id: string) => api.get(`/api/processos/${id}`);
 export const getTiposProcesso = () => api.get("/api/tipos-processo");
@@ -73,4 +75,6 @@ export const register = (data: {
   telefone: string;
 }) => api.post("/api/auth/register", data);
 export const me = () => api.get("/api/auth/me");
+export const updatePerfil = (data: { nome: string; telefone: string }) => api.put("/api/auth/me", data);
+export const uploadFotoPerfil = (file: File) => { const body = new FormData(); body.append("file", file); return api.post("/api/auth/me/foto", body); };
 export const logout = () => api.post("/api/auth/logout");

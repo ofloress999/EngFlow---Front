@@ -63,7 +63,12 @@ export function DetalhesProjeto() {
     }
   };
   const removeProject = async () => {
-    if (!window.confirm(`Excluir permanentemente o projeto "${processo?.nomeObra}" e todos os seus arquivos?`)) return;
+    if (
+      !window.confirm(
+        `Excluir permanentemente o projeto "${processo?.nomeObra}" e todos os seus arquivos?`,
+      )
+    )
+      return;
     try {
       setSaving(true);
       setError("");
@@ -301,6 +306,9 @@ function StagePanel({
     size < 1024 * 1024
       ? `${Math.ceil(size / 1024)} KB`
       : `${(size / (1024 * 1024)).toFixed(1)} MB`;
+  const isImage = (anexo: AnexoEtapa) =>
+    anexo.tipoDocumento?.startsWith("image/") ||
+    /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(anexo.nomeArquivo);
   return (
     <aside className="fixed inset-0 z-20 bg-slate-950/40 backdrop-blur-sm">
       <div className="absolute right-0 flex h-full w-full max-w-xl flex-col bg-white shadow-2xl">
@@ -390,6 +398,21 @@ function StagePanel({
                     key={anexo.id}
                     className="flex items-center gap-2 rounded-xl border border-slate-200 p-3 text-sm"
                   >
+                    {isImage(anexo) && (
+                      <a
+                        href={anexo.linkArquivo}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-slate-200"
+                        aria-label={`Visualizar ${anexo.nomeArquivo}`}
+                      >
+                        <img
+                          src={anexo.linkArquivo}
+                          alt={anexo.nomeArquivo}
+                          className="h-full w-full object-cover"
+                        />
+                      </a>
+                    )}
                     <a
                       href={anexo.linkArquivo}
                       target="_blank"
@@ -401,10 +424,14 @@ function StagePanel({
                           {anexo.nomeArquivo}
                         </b>
                         <span className="text-xs text-slate-500">
-                          {anexo.tipoDocumento} · {formatSize(anexo.tamanhoBytes)}
+                          {anexo.tipoDocumento} ·{" "}
+                          {formatSize(anexo.tamanhoBytes)}
                         </span>
                       </span>
-                      <ExternalLink className="ml-3 shrink-0 text-slate-400" size={17} />
+                      <ExternalLink
+                        className="ml-3 shrink-0 text-slate-400"
+                        size={17}
+                      />
                     </a>
                     <button
                       type="button"

@@ -1,6 +1,14 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import type { Perfil } from '../types'; import { login as loginApi, logout as logoutApi, me, register as registerApi } from '../services/api';
-type AuthContextValue = { user: Perfil | null; loading: boolean; login: (email: string, senha: string) => Promise<void>; register: (data: { nome: string; email: string; senha: string; creaCau: string; telefone: string }) => Promise<void>; logout: () => Promise<void>; };
+import type { Perfil } from '../types';
+import { login as loginApi, logout as logoutApi, me, register as registerApi } from '../services/api';
+type AuthContextValue = { user: Perfil | null; setUser: (user: Perfil | null) => void; loading: boolean; login: (email: string, senha: string) => Promise<void>; register: (data: { nome: string; email: string; senha: string; creaCau: string; telefone: string }) => Promise<void>; logout: () => Promise<void>; };
 const AuthContext = createContext<AuthContextValue | null>(null);
-export function AuthProvider({ children }: { children: React.ReactNode }) { const [user, setUser] = useState<Perfil | null>(null); const [loading, setLoading] = useState(true); useEffect(() => { me().then(r => setUser(r.data)).catch(() => setUser(null)).finally(() => setLoading(false)); }, []); const login = async (email: string, senha: string) => { const r = await loginApi({ email, senha }); setUser(r.data); }; const register = async (data: { nome: string; email: string; senha: string; creaCau: string; telefone: string }) => { await registerApi(data); await login(data.email, data.senha); }; const logout = async () => { try { await logoutApi(); } finally { setUser(null); } }; return <AuthContext.Provider value={{ user, loading, login, register, logout }}>{children}</AuthContext.Provider>; }
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<Perfil | null>(null); const [loading, setLoading] = useState(true);
+  useEffect(() => { me().then(r => setUser(r.data)).catch(() => setUser(null)).finally(() => setLoading(false)); }, []);
+  const login = async (email: string, senha: string) => { const r = await loginApi({ email, senha }); setUser(r.data); };
+  const register = async (data: { nome: string; email: string; senha: string; creaCau: string; telefone: string }) => { await registerApi(data); await login(data.email, data.senha); };
+  const logout = async () => { try { await logoutApi(); } finally { setUser(null); } };
+  return <AuthContext.Provider value={{ user, setUser, loading, login, register, logout }}>{children}</AuthContext.Provider>;
+}
 export function useAuth() { const value = useContext(AuthContext); if (!value) throw new Error('useAuth deve ser usado dentro de AuthProvider'); return value; }

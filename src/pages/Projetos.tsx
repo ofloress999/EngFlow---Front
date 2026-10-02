@@ -63,6 +63,9 @@ export function Projetos() {
   useEffect(() => {
     void load();
   }, [pathname]);
+  useEffect(() => {
+    if (category !== "ATIVO") setTab("list");
+  }, [category]);
   const matches = useMemo(
     () =>
       clientes.filter((c) =>
@@ -146,7 +149,7 @@ export function Projetos() {
       {error && (
         <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>
       )}
-      {tab === "new" ? (
+      {category === "ATIVO" && tab === "new" ? (
         <form
           onSubmit={submit}
           className="max-w-2xl space-y-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
